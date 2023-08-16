@@ -8,7 +8,14 @@ using Telegram.Bot.Types.ReplyMarkups;
 
 Dictionary<long, Message> _pending = new();
 
-var bot = new TelegramBotClient(Environment.GetEnvironmentVariable("TOKEN")!);
+var token = Environment.GetEnvironmentVariable("TOKEN");
+if (token == null)
+{
+  Console.WriteLine("Set the 'TOKEN' environment variable before running the bot!");
+  return;
+}
+
+var bot = new TelegramBotClient(token);
 bot.StartReceiving(OnUpdate, OnPollingError, new ReceiverOptions() {
   ThrowPendingUpdates = true,
   AllowedUpdates = new UpdateType[] {
